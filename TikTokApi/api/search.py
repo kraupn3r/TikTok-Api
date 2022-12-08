@@ -105,6 +105,7 @@ class Search:
             api_response = Search.parent.get_data(
                 path, subdomain=subdomain, ttwid=ttwid, **kwargs
             )
+            return api_response
 
             # When I move to 3.10+ support make this a match switch.
             for result in api_response.get("user_list", []):
