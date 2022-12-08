@@ -82,8 +82,8 @@ class Search:
             proxies=Search.parent._format_proxy(processed.proxy),
             **Search.parent._requests_extra_kwargs
         )
-        ttwid = spawn.cookies["ttwid"]
 
+        ttwid = "1%7CdgFIaWxAWK58ySHyYivqSfiS4mXqVzW9MvY2rjZ89tc%7C1670486573%7Cf95ced355d866d8a50e5e7a821a01827f77bd9e0db2b9b5202682d91fa734838"
         # For some reason when <= it can be off by one.
         while cursor - offset <= count:
             query = {
