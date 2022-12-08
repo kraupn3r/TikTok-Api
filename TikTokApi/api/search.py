@@ -21,7 +21,7 @@ class Search:
     parent: TikTokApi
 
     @staticmethod
-    def videos(search_term, count=28, offset=0, **kwargs) -> Iterator[Video]:
+    def videos(search_term, ttwid, count=28, offset=0, **kwargs) -> Iterator[Video]:
         """
         Searches for Videos
 
@@ -83,7 +83,7 @@ class Search:
             **Search.parent._requests_extra_kwargs
         )
 
-        ttwid = "1%7CdgFIaWxAWK58ySHyYivqSfiS4mXqVzW9MvY2rjZ89tc%7C1670486573%7Cf95ced355d866d8a50e5e7a821a01827f77bd9e0db2b9b5202682d91fa734838"
+
         # For some reason when <= it can be off by one.
         while cursor - offset <= count:
             query = {
