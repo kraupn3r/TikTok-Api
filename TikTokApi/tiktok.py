@@ -369,7 +369,7 @@ class TikTokApi:
                 raise TikTokException(statusCode, r,
                                       ERROR_CODES.get(statusCode, f"TikTok sent an unknown StatusCode of {statusCode}")
                                       )
-
+            return {0:url}
             return r.json()
         except ValueError as e:
             text = r.text
@@ -527,6 +527,7 @@ class TikTokApi:
             )
         query = {"verifyFp": verify_fp, "_signature": signature}
         url = "{}&{}".format(kwargs["url"], urlencode(query))
+        return url
         r = requests.get(
             url,
             headers={
