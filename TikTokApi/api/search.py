@@ -76,7 +76,7 @@ class Search:
         kwargs["custom_device_id"] = processed.device_id
 
         cursor = offset
-
+        ttwid=ttwid
         spawn = requests.head(
             "https://www.tiktok.com",
             proxies=Search.parent._format_proxy(processed.proxy),
