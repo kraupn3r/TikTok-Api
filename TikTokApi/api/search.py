@@ -83,41 +83,53 @@ class Search:
             **Search.parent._requests_extra_kwargs
         )
 
+        query = {
+            "keyword": search_term,
+            "cursor": cursor,
+            "app_language": Search.parent._language,
+        }
+        subdomain = "us"
+        path = "api/search/{}/full/?{}&{}".format(
+            obj_type, Search.parent._add_url_params(), urlencode(query)
+        )
+        api_response = Search.parent.get_data(
+            path, subdomain=subdomain, ttwid=ttwid, **kwargs
+        )
+        return api_response
+#         # For some reason when <= it can be off by one.
+#         while cursor - offset <= count:
+#             query = {
+#                 "keyword": search_term,
+#                 "cursor": cursor,
+#                 "app_language": Search.parent._language,
+#             }
+#             path = "api/search/{}/full/?{}&{}".format(
+#                 obj_type, Search.parent._add_url_params(), urlencode(query)
+#             )
 
-        # For some reason when <= it can be off by one.
-        while cursor - offset <= count:
-            query = {
-                "keyword": search_term,
-                "cursor": cursor,
-                "app_language": Search.parent._language,
-            }
-            path = "api/search/{}/full/?{}&{}".format(
-                obj_type, Search.parent._add_url_params(), urlencode(query)
-            )
+#             if obj_type == "user":
+#                 subdomain = "www"
+#             elif obj_type == "item":
+#                 subdomain = "us"
+#             else:
+#                 raise TypeError("invalid obj_type")
 
-            if obj_type == "user":
-                subdomain = "www"
-            elif obj_type == "item":
-                subdomain = "us"
-            else:
-                raise TypeError("invalid obj_type")
+#             api_response = Search.parent.get_data(
+#                 path, subdomain=subdomain, ttwid=ttwid, **kwargs
+#             )
+#             return api_response
 
-            api_response = Search.parent.get_data(
-                path, subdomain=subdomain, ttwid=ttwid, **kwargs
-            )
-            return api_response
+#             # When I move to 3.10+ support make this a match switch.
+#             for result in api_response.get("user_list", []):
+#                 yield User(data=result)
 
-            # When I move to 3.10+ support make this a match switch.
-            for result in api_response.get("user_list", []):
-                yield User(data=result)
+#             for result in api_response.get("item_list", []):
+#                 yield Video(data=result)
 
-            for result in api_response.get("item_list", []):
-                yield Video(data=result)
+#             if api_response.get("has_more", 0) == 0:
+#                 Search.parent.logger.info(
+#                     "TikTok is not sending videos beyond this point."
+#                 )
+#                 return
 
-            if api_response.get("has_more", 0) == 0:
-                Search.parent.logger.info(
-                    "TikTok is not sending videos beyond this point."
-                )
-                return
-
-            cursor = int(api_response.get("cursor", cursor))
+#             cursor = int(api_response.get("cursor", cursor))
